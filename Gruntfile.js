@@ -42,7 +42,7 @@ module.exports = function (grunt) {
                 tasks: ['newer:jshint:test', 'karma']
             },
             styles: {
-                files: ['<%= yeoman.app %>/styles/{,*/}*.less'],
+                files: ['<%= yeoman.app %>/styles/{,*/}*.css'],
                 tasks: ['less', 'newer:copy:styles', 'autoprefixer']
             },
             gruntfile: {

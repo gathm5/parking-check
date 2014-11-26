@@ -14,5 +14,11 @@ angular.module('parkingCheckApp')
                         $scope.position = position;
                     });
             };
+            $scope.$on('$$ready', function () {
+                $scope.isAvailable = false;
+                if (window.plugin && window.plugin.notification && window.plugin.notification.local) {
+                    $scope.isAvailable = true;
+                }
+            });
         }
     ]);
