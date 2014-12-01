@@ -1,0 +1,29 @@
+.parking-button {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  .button {
+    display: inline-block;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+    &.ng-click-active {
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.4) inset;
+    }
+  }
+}
+
+.positive .parking-button {
+  .button {
+    //background: url('../../images/parking-positive.png') no-repeat 0 0 transparent;
+    background: #789E23;
+  }
+}
+
+.negative .parking-button {
+  .button {
+    //background: url('../../images/parking-negative.png') no-repeat 0 0 transparent;
+    background: #DC2525;
+  }
+}

@@ -26,12 +26,17 @@ angular.module('parkingCheckApp', [
         }
     })
     .config(function ($stateProvider, $urlRouterProvider, $compileProvider) {
-        $urlRouterProvider.otherwise('/');
+        $urlRouterProvider.otherwise('/dashboard');
         $stateProvider
             .state('main', {
                 url: '/',
                 templateUrl: '/views/main.html',
                 controller: 'MainCtrl'
+            })
+            .state('dashboard', {
+                url: '/dashboard',
+                templateUrl: '/views/dashboard.html',
+                controller: 'DashboardCtrl'
             });
         $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|geo|javascript):/);
     })

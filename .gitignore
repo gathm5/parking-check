@@ -7,3 +7,5 @@ parking-check-build
 .travis.yml
 .editorconfig
 test
+.idea
+resources

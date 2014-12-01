@@ -351,7 +351,7 @@ module.exports = function (grunt) {
             ],
             dist: [
                 'copy:styles',
-                'imagemin',
+                //'imagemin',
                 'svgmin',
                 'htmlmin'
             ]
@@ -429,7 +429,6 @@ module.exports = function (grunt) {
         'concat',
         'ngmin',
         'copy:dist',
-        'cdnify',
         'inline_angular_templates',
         'cssmin',
         'uglify',
