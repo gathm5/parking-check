@@ -6,14 +6,9 @@ angular.module('parkingCheckApp')
             templateUrl: '/views/directives/parking-button.html',
             restrict: 'E',
             scope: {
-                toggle: '='
+                clicker: '='
             },
             replace: true,
-            required: 'toggle',
-            link: function postLink(scope) {
-                scope.ClickParking = function () {
-                    scope.toggle = !scope.toggle;
-                };
-            }
+            required: 'clicker'
         };
     });
