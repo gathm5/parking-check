@@ -23,6 +23,10 @@ angular.module('parkingCheckApp', [
             url: 'api.parkwhiz.com',
             action: 'search?q=',
             key: null
+        },
+        map: {
+            linkType1: 'https://www.google.com/maps/dir/Current+Location/',
+            linkType2: 'https://maps.google.com/maps?saddr=Current+Location&dirflg=w&daddr='
         }
     })
     .config(function ($stateProvider, $urlRouterProvider, $compileProvider) {
