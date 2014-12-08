@@ -5,8 +5,9 @@
             Location: {{parking.location.coords.latitude}}, {{parking.location.coords.longitude}}
         </div>
         <div>
-            <a href="geo:{{parking.location.coords.latitude}},{{parking.location.coords.longitude}}">Open in
-                maps</a>
+            <geo-link data-geo="parking.location.coords" title="">
+                Open in maps
+            </geo-link>
         </div>
         <div>
             parked since: {{parking.date | parkingTime}}
@@ -20,6 +21,7 @@
         <div>
             Find where you parked:
         </div>
-        <a href="{{mapLink}}{{current.location.coords.latitude}},{{current.location.coords.longitude}}">Open in maps</a>
+        <a href="{{(current.location.coords.latitude + ',' + current.location.coords.longitude)}}">Open in
+            maps</a>
     </div>
 </div>
