@@ -8,10 +8,10 @@ angular.module('parkingCheckApp')
                 restrict: 'EA',
                 link: function (scope, element) {
                     var deviceType = 'web';
-                    if ($window.device) {
-                        deviceType = $window.device.platform;
+                    if ($window.cordova) {
+                        deviceType = $window.cordova.platformId;
                     }
-                    element[0].setAttribut4e('data-platform', deviceType);
+                    element[0].setAttribute('data-platform', deviceType);
                 }
             };
         }
