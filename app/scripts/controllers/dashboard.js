@@ -6,7 +6,8 @@ angular.module('parkingCheckApp')
         '$parking',
         '$geocode',
         '$config',
-        function ($scope, $parking, $geocode, $config) {
+        '$timeout',
+        function ($scope, $parking, $geocode, $config, $timeout) {
             if ($parking.isStarted() || $parking.isEnded()) {
                 $scope.isParked = $parking.isStarted();
                 if ($scope.isParked) {
@@ -30,6 +31,7 @@ angular.module('parkingCheckApp')
                             $parking.parked(location, 'start');
                             $scope.parking = $parking.isStarted();
                             $scope.isParked = $scope.parking;
+                            getLocation();
                         });
                 }
             };
@@ -48,6 +50,22 @@ angular.module('parkingCheckApp')
                     $scope.isParked = $scope.parking;
                 }
             }
+
+            function getLocation() {
+                if ($scope.isParked) {
+                    $timeout(function () {
+                        $geocode
+                            .geocode($scope)
+                            .then(function (location) {
+                                $scope.location = location;
+                            });
+                        getLocation();
+                    }, $config.timer);
+                }
+            }
+
+            getLocation();
+
             onResume();
             $scope.$on('$$focus', onResume);
             $scope.$on('$$resume', onResume);

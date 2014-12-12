@@ -27,7 +27,8 @@ angular.module('parkingCheckApp', [
         map: {
             linkType1: 'https://www.google.com/maps/dir/Current+Location/',
             linkType2: 'https://maps.google.com/maps?saddr=Current+Location&dirflg=w&daddr='
-        }
+        },
+        timer: 5 * 1000
     })
     .config(function ($stateProvider, $urlRouterProvider, $compileProvider) {
         $urlRouterProvider.otherwise('/dashboard');
