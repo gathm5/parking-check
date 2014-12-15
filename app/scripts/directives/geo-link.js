@@ -7,15 +7,16 @@ angular.module('parkingCheckApp')
             return {
                 template: function () {
                     var link = '<a class="map-link" '
-                        + 'data-ng-href="{{prefix}}{{geo.latitude}},{{geo.longitude}} '
-                        + 'data-rel="external" data-ng-transclude></a>';
+                        + 'data-ng-href="{{prefix}}{{geo.latitude}},{{geo.longitude}}{{suffixLink}}"'
+                        + ' data-rel="external" data-ng-transclude></a>';
                     return link;
                 },
                 restrict: 'E',
                 transclude: true,
                 replace: true,
                 scope: {
-                    geo: '='
+                    geo: '=',
+                    suffix: '='
                 },
                 link: function (scope) {
                     var deviceType = document.body.dataset.platform || 'web';
@@ -23,6 +24,9 @@ angular.module('parkingCheckApp')
                     switch (deviceType.toLowerCase()) {
                         case 'android':
                             scope.prefix = 'geo:';
+                            if (scope.suffix && false) {
+                                scope.suffixLink = '?q=' + scope.suffix.latitude + ',' + scope.suffix.longitude + '&mode=w';
+                            }
                             break;
                         case 'ios':
                             scope.prefix = 'comgooglemaps://';

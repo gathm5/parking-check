@@ -7,7 +7,7 @@ angular.module('parkingCheckApp')
             return {
                 restrict: 'EA',
                 link: function (scope, element) {
-                    var deviceType = 'web';
+                    var deviceType = 'android';
                     if ($window.cordova) {
                         deviceType = $window.cordova.platformId;
                     }

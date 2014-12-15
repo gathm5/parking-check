@@ -1,0 +1,31 @@
+.web-intent {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  bottom: 0;
+  margin-bottom: 50px;
+  .intent {
+    text-align: center;
+    .message {
+      display: inline-block;
+      max-width: 80%;
+      padding: 10px 12px;
+      background: rgba(24, 24, 24, 1);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+      font-size: 0.8em;
+      color: #ffffff;
+    }
+  }
+  .intent-animation {
+    &.ng-enter {
+      -webkit-animation: bounceIn 400ms;
+      animation: bounceIn 400ms;
+    }
+    &.ng-leave {
+      -webkit-animation: fadeOutDown 400ms;
+      animation: fadeOutDown 400ms;
+    }
+  }
+}

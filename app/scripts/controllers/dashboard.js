@@ -7,67 +7,65 @@ angular.module('parkingCheckApp')
         '$geocode',
         '$config',
         '$timeout',
-        function ($scope, $parking, $geocode, $config, $timeout) {
-            if ($parking.isStarted() || $parking.isEnded()) {
-                $scope.isParked = $parking.isStarted();
-                if ($scope.isParked) {
-                    $scope.parking = $scope.isParked;
-                }
-            }
+        '$rootScope',
+        function ($scope, $parking, $geocode, $config, $timeout, $rootScope) {
+            var timer;
+            $scope.isParked = $parking.isStarted();
             $scope.parkingControl = function () {
                 if ($scope.isParked) {
+                    $scope.isParked = null;
+                    $scope.location = null;
+                    $timeout.cancel(timer);
+                    $rootScope.$emit('$alert', {
+                        message: 'Your parking session ended'
+                    });
                     $geocode
                         .geocode($scope)
                         .then(function (location) {
                             $parking.parked(location, 'end');
-                            $scope.parking = null;
-                            $scope.isParked = null;
                         });
                 }
                 else {
+                    $rootScope.$emit('$alert', {
+                        message: 'Registering your parking location'
+                    });
                     $geocode
                         .geocode($scope)
                         .then(function (location) {
                             $parking.parked(location, 'start');
-                            $scope.parking = $parking.isStarted();
-                            $scope.isParked = $scope.parking;
-                            getLocation();
+                            $scope.isParked = $parking.isStarted();
+                            getParkInfo();
                         });
                 }
             };
-            $scope.mapLink = $config.map.linkType2;
-            function onResume() {
+
+            function getParkInfo() {
+                $scope.updateTime = false;
+                $timeout(function () {
+                    $scope.updateTime = true;
+                });
                 $geocode
                     .geocode($scope)
                     .then(function (location) {
-                        $scope.current = {
-                            location: location,
-                            date: new Date()
-                        };
+                        $scope.location = location;
                     });
-                if ($scope.isParked) {
-                    $scope.isParked = null;
-                    $scope.isParked = $scope.parking;
-                }
+                getLocation();
             }
 
             function getLocation() {
                 if ($scope.isParked) {
-                    $timeout(function () {
-                        $geocode
-                            .geocode($scope)
-                            .then(function (location) {
-                                $scope.location = location;
-                            });
-                        getLocation();
-                    }, $config.timer);
+                    timer = $timeout(getParkInfo, $config.timer);
                 }
             }
 
-            getLocation();
+            getParkInfo();
 
-            onResume();
-            $scope.$on('$$focus', onResume);
-            $scope.$on('$$resume', onResume);
+            $scope.$on('$$pause', function () {
+                $timeout.cancel(timer);
+            });
+            $scope.$on('$$resume', getParkInfo);
+            $scope.$on('$$back', function () {
+                navigator.app.exitApp();
+            });
         }
     ]);

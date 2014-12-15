@@ -1,0 +1,43 @@
+.dashboard {
+  margin: 10px 0;
+  .parking-table {
+    border: 5px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3) inset, 0 0 10px rgba(0, 0, 0, 0.3);
+    margin: 15px 7.5px;
+    .parking-time {
+      font-size: 1.2em;
+      height: 4em;
+      line-height: 4em;
+      text-align: center;
+      box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2) inset;
+    }
+    .co-ordinates {
+      font-size: 1.2em;
+      height: 4em;
+      line-height: 4em;
+      text-align: center;
+      div {
+        width: 50%;
+        float: left;
+        box-shadow: 1px 0px 2px rgba(0, 0, 0, 0.2) inset;
+      }
+      box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2) inset;
+    }
+    .map-link {
+      font-size: 1.2em;
+      height: 4em;
+      line-height: 4em;
+      text-align: center;
+      display: block;
+      text-decoration: none;
+      color: #fff;
+      background: dodgerblue;
+    }
+  }
+  .show-in {
+    &.ng-enter {
+      -webkit-animation: pulse 400ms;
+      animation: pulse 400ms;
+    }
+  }
+}
