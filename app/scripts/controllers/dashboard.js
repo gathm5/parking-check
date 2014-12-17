@@ -9,13 +9,15 @@ angular.module('parkingCheckApp')
         '$config',
         '$timeout',
         '$rootScope',
-        function ($scope, $parking, $transit, $geocode, $config, $timeout, $rootScope) {
+        '$state',
+        function ($scope, $parking, $transit, $geocode, $config, $timeout, $rootScope, $state) {
             var timer;
             $scope.isParked = $parking.isStarted();
             $scope.parkingControl = function () {
                 if ($scope.isParked) {
                     $scope.isParked = null;
                     $scope.location = null;
+                    $scope.mapReady = null;
                     $timeout.cancel(timer);
                     $rootScope.$emit('$alert', {
                         message: 'Your parking session ended',
@@ -55,10 +57,13 @@ angular.module('parkingCheckApp')
                         .then(function (data) {
                             if (data.status === 200) {
                                 $scope.walking = data.data.route;
-                                console.log($scope.walking);
                             }
                         });
                 });
+            };
+
+            $scope.locateInMap = function () {
+                locate($scope.location.coords, $scope.isParked.location.coords);
             };
 
             function getParkInfo(clb) {
@@ -66,12 +71,22 @@ angular.module('parkingCheckApp')
                     $geocode
                         .geocode($scope)
                         .then(function (location) {
+                            console.log('location is found: ', location);
                             $scope.location = location;
                             if (clb) {
                                 clb();
                             }
+                            $scope.mapReady = true;
+                        }, function (bug) {
+                            console.log('bug found: ', bug);
                         });
                 }
+            }
+
+            function locate(fromGeo, toGeo) {
+                $state.go('locate', {
+                    location: [fromGeo.latitude, fromGeo.longitude, toGeo.latitude, toGeo.longitude].join(',')
+                });
             }
 
             getParkInfo();

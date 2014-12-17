@@ -9,7 +9,8 @@ angular.module('parkingCheckApp', [
         'ngAnimate',
         'ui.router',
         'gsDirectives',
-        'ngStorage'
+        'ngStorage',
+        'ngMap'
     ])
     .constant('$config', {
         app: {
@@ -42,6 +43,11 @@ angular.module('parkingCheckApp', [
                 url: '/dashboard',
                 templateUrl: '/views/dashboard.html',
                 controller: 'DashboardCtrl'
+            })
+            .state('locate', {
+                url: '/locate/:location',
+                templateUrl: '/views/locate-user.html',
+                controller: 'LocateUserCtrl'
             });
         $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|geo|javascript):/);
     })

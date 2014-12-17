@@ -390,6 +390,12 @@ module.exports = function (grunt) {
                 configFile: 'karma.conf.js',
                 singleRun: true
             }
+        },
+
+        bowerInstall: {
+            target: {
+                src: '<%= yeoman.app %>/index.html'
+            }
         }
     });
 
@@ -402,6 +408,7 @@ module.exports = function (grunt) {
         grunt.task.run([
             'clean:server',
             'concurrent:server',
+            'bowerInstall',
             'autoprefixer',
             'connect:livereload',
             'watch'
@@ -425,6 +432,7 @@ module.exports = function (grunt) {
         'clean:dist',
         'useminPrepare',
         'concurrent:dist',
+        'bowerInstall',
         'less',
         'autoprefixer',
         'concat',
