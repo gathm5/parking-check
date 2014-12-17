@@ -30,7 +30,7 @@ angular.module('parkingCheckApp')
                     var deferred = $q.defer();
                     var geoOptions = {
                         enableHighAccuracy: true,
-                        timeout: 5000,
+                        timeout: 10 * 1000,
                         maximumAge: 0
                     };
                     if (options && options.timeout) {

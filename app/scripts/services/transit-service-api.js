@@ -22,9 +22,8 @@ angular.module('parkingCheckApp')
             'drivingStyle=2',
             'highwayEfficiency=21.0'
         ],
-        url: 'http://www.mapquestapi.com/directions/v2/route',
+        url: 'http://www.mapquestapi.com/directions/v2/route?key=Fmjtd%7Cluurn1uz2u%2Cbl%3Do5-9wyx50',
         configuration: {
-            key: 'Fmjtd%7Cluurn1uz2u%2Cbl%3Do5-9wyx50',
             ambiguities: 'ignore',
             routeType: 'pedestrian',
             from: 'Clarendon%20Blvd,%20Arlington,%20VA',
@@ -32,20 +31,19 @@ angular.module('parkingCheckApp')
         }
     })
     .service('$transit', [
-        '$q',
         '$http',
         '$transitConfig',
-        function TransitServiceApi($q, $http, $transitConfig) {
+        function TransitServiceApi($http, $transitConfig) {
             // AngularJS will instantiate a singleton by calling 'new' on this function
             var serviceUrl = $transitConfig.url;
             var params = $transitConfig.configuration;
 
-            function get(fromGeo, toGeo) {
+            this.get = function (fromGeo, toGeo) {
                 params.from = fromGeo.latitude + ',' + fromGeo.longitude;
                 params.to = toGeo.latitude + ',' + toGeo.longitude;
-                $http.get(serviceUrl, {
+                return $http.get(serviceUrl, {
                     params: params
-                })
+                });
             }
         }
     ]);
