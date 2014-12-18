@@ -25,5 +25,8 @@ angular.module('parkingCheckApp')
                     toGeo
                 ]
             };
+            $scope.$on('$$back', function () {
+                $state.go('dashboard');
+            });
         }
     ]);
