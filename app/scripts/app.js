@@ -10,7 +10,8 @@ angular.module('parkingCheckApp', [
         'ui.router',
         'gsDirectives',
         'ngStorage',
-        'ngMap'
+        'ngMap',
+        'ionic'
     ])
     .constant('$config', {
         app: {
@@ -32,12 +33,41 @@ angular.module('parkingCheckApp', [
         timer: 5 * 1000
     })
     .config(function ($stateProvider, $urlRouterProvider, $compileProvider) {
-        $urlRouterProvider.otherwise('/dashboard');
+        $urlRouterProvider.otherwise('/park');
         $stateProvider
-            .state('main', {
-                url: '/',
-                templateUrl: '/views/main.html',
-                controller: 'MainCtrl'
+            .state('app', {
+                views: {
+                    '@': {
+                        templateUrl: '/views/app-page.html'
+                    },
+                    'Header@app': {
+                        templateUrl: '/views/header.html'
+                    },
+                    'Footer@app': {
+                        templateUrl: '/views/footer.html'
+                    }
+                }
+            })
+            .state('app.park', {
+                url: '/park',
+                views: {
+                    'Content@app': {
+                        templateUrl: '/views/dashboard.html',
+                        controller: 'DashboardCtrl'
+                    }
+                }
+            })
+            .state('app.history', {
+                url: '/history',
+                views: {
+                    'Content@app': {
+                        templateUrl: '/views/dashboard.html',
+                        controller: 'DashboardCtrl'
+                    }
+                }
+            })
+            .state('app.connect', {
+                url: '/connect'
             })
             .state('dashboard', {
                 url: '/dashboard',
@@ -56,8 +86,16 @@ angular.module('parkingCheckApp', [
         '$state',
         '$deviceListeners',
         'NotificationService',
-        function ($rootScope, $state, $deviceListeners, NotificationService) {
+        '$ionicPlatform',
+        function ($rootScope, $state, $deviceListeners, NotificationService, $ionicPlatform) {
             $rootScope.$state = $state;
+            $ionicPlatform.ready(function () {
+                // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+                // for form inputs)
+                if (window.cordova && window.cordova.plugins.Keyboard) {
+                    cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+                }
+            });
             $deviceListeners.init();
             $rootScope.$on('$$ready', function () {
                 NotificationService.ready();
