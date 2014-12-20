@@ -5,7 +5,8 @@ angular.module('parkingCheckApp')
         '$scope',
         '$state',
         '$stateParams',
-        function ($scope, $state, $stateParams) {
+        '$rootScope',
+        function ($scope, $state, $stateParams, $rootScope) {
             var params = $stateParams.location;
             params = params.split(',');
             var fromGeo = {
@@ -29,7 +30,17 @@ angular.module('parkingCheckApp')
                 ]
             };
             $scope.$on('$$back', function () {
-                $state.go('dashboard');
+                $state.go('app.parking');
+            });
+            $rootScope.header = {
+                back: {
+                    label: 'back',
+                    title: 'Locate User',
+                    align: 'right'
+                }
+            };
+            $scope.$on('$destroy', function () {
+                $rootScope.header = null;
             });
         }
     ]);

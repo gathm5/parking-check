@@ -84,7 +84,7 @@ angular.module('parkingCheckApp')
             }
 
             function locate(fromGeo, toGeo) {
-                $state.go('locate', {
+                $state.go('app.park.locate', {
                     location: [fromGeo.latitude, fromGeo.longitude, toGeo.latitude, toGeo.longitude].join(',')
                 });
             }

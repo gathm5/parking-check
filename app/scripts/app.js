@@ -41,7 +41,16 @@ angular.module('parkingCheckApp', [
                         templateUrl: '/views/app-page.html'
                     },
                     'Header@app': {
-                        templateUrl: '/views/header.html'
+                        templateUrl: '/views/header.html',
+                        controller: [
+                            '$scope',
+                            '$rootScope',
+                            function ($scope, $rootScope) {
+                                $scope.back = function () {
+                                    $rootScope.$broadcast('$$back');
+                                }
+                            }
+                        ]
                     },
                     'Footer@app': {
                         templateUrl: '/views/footer.html'
@@ -54,6 +63,15 @@ angular.module('parkingCheckApp', [
                     'Content@app': {
                         templateUrl: '/views/dashboard.html',
                         controller: 'DashboardCtrl'
+                    }
+                }
+            })
+            .state('app.park.locate', {
+                url: '/locate/:location',
+                views: {
+                    'Content@app': {
+                        templateUrl: '/views/locate-user.html',
+                        controller: 'LocateUserCtrl'
                     }
                 }
             })
