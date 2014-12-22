@@ -1,18 +1,18 @@
 'use strict';
 
 angular.module('parkingCheckApp', [
-        'ngCookies',
-        'ngResource',
-        'ngSanitize',
-        'ngRoute',
-        'ngTouch',
-        'ngAnimate',
-        'ui.router',
-        'gsDirectives',
-        'ngStorage',
-        'ngMap',
-        'ionic'
-    ])
+    'ngCookies',
+    'ngResource',
+    'ngSanitize',
+    'ngRoute',
+    'ngTouch',
+    'ngAnimate',
+    'ui.router',
+    'gsDirectives',
+    'ngStorage',
+    'ngMap',
+    'ionic'
+])
     .constant('$config', {
         app: {
             name: 'Parking Check'
@@ -47,6 +47,7 @@ angular.module('parkingCheckApp', [
                             '$rootScope',
                             function ($scope, $rootScope) {
                                 $scope.back = function () {
+                                    console.log('Back button from button');
                                     $rootScope.$broadcast('$$back');
                                 }
                             }
@@ -105,8 +106,10 @@ angular.module('parkingCheckApp', [
         '$deviceListeners',
         'NotificationService',
         '$ionicPlatform',
-        function ($rootScope, $state, $deviceListeners, NotificationService, $ionicPlatform) {
+        '$config',
+        function ($rootScope, $state, $deviceListeners, NotificationService, $ionicPlatform, $config) {
             $rootScope.$state = $state;
+            $rootScope.$app = $config.app;
             $ionicPlatform.ready(function () {
                 // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
                 // for form inputs)

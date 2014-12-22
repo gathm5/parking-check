@@ -30,7 +30,7 @@ angular.module('parkingCheckApp')
                 ]
             };
             $scope.$on('$$back', function () {
-                $state.go('app.parking');
+                $state.go('app.park');
             });
             $rootScope.header = {
                 back: {
