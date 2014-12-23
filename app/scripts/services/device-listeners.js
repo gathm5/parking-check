@@ -8,10 +8,13 @@ angular.module('parkingCheckApp')
 
             function init() {
                 //Device Ready
-                $document[0].addEventListener('deviceReady', function(e){
+                $document[0].addEventListener('deviceReady', function (e) {
                     $rootScope.$broadcast('$$ready', {
                         eventDefault: e
                     });
+                    if (window.cordova && window.cordova.plugins.Keyboard) {
+                        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+                    }
                 });
                 //Back button
                 $document[0].addEventListener('backbutton', function (e) {
