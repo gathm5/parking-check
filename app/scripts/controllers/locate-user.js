@@ -12,13 +12,13 @@ angular.module('parkingCheckApp')
             var fromGeo = {
                 latitude: params[0],
                 longitude: params[1],
-                icon: '/images/map-icon-blue.png',
+                icon: 'images/map-icon-blue.png',
                 title: 'From'
             };
             var toGeo = {
                 latitude: params[2],
                 longitude: params[3],
-                icon: '/images/map-icon-red.png',
+                icon: 'images/map-icon-red.png',
                 title: 'To'
             };
             $scope.mapConfig = {

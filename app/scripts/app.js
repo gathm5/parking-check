@@ -80,13 +80,19 @@ angular.module('parkingCheckApp', [
                 url: '/history',
                 views: {
                     'Content@app': {
-                        templateUrl: '/views/dashboard.html',
-                        controller: 'DashboardCtrl'
+                        templateUrl: '/views/history.html',
+                        controller: 'HistoryCtrl'
                     }
                 }
             })
             .state('app.connect', {
-                url: '/connect'
+                url: '/connect',
+                views: {
+                    'Content@app': {
+                        templateUrl: '/views/connect.html',
+                        controller: 'ConnectCtrl'
+                    }
+                }
             })
             .state('dashboard', {
                 url: '/dashboard',

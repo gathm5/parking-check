@@ -13,6 +13,9 @@
     .right {
         text-align: right;
     }
+    .text {
+        text-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+    }
     button.back-button {
         position: absolute;
         top: 0;
@@ -67,4 +70,29 @@ footer {
     z-index: 1;
     background: #ddd;
     box-shadow: 0px -2px 2px rgba(0, 0, 0, 0.3);
+    .footer {
+        height: 100%;
+        .tab {
+            height: 100%;
+            float: left;
+            width: 33.3%;
+            text-align: center;
+            padding-top: 3px;
+            box-shadow: 1px 0 2px rgba(0, 0, 0, 0.3);
+            &:last-child {
+                box-shadow: none;
+            }
+            i {
+                font-size: 1.75em;
+            }
+            .label {
+            }
+            &.ng-click-active {
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.6) inset;
+            }
+            &.selected {
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.3) inset;
+            }
+        }
+    }
 }
