@@ -8,11 +8,16 @@ angular.module('parkingCheckApp')
                 screenSize: '@'
             },
             link: function postLink(scope, element) {
-                if (scope.screenSize) {
-                    element.css({
-                        height: (window.innerHeight - parseFloat(scope.screenSize)) + 'px'
-                    });
+                function resize() {
+                    if (scope.screenSize) {
+                        element.css({
+                            height: (window.innerHeight - parseFloat(scope.screenSize)) + 'px'
+                        });
+                    }
                 }
+
+                resize();
+                window.addEventListener('deviceorientation', resize, false);
             }
         };
     });
