@@ -14,6 +14,12 @@ angular.module('parkingCheckApp')
                 return $localStorage[key];
             }
 
+            function storeInStorage(key, value) {
+                if ($localStorage[key] && value) {
+                    $localStorage[key] = value;
+                }
+            }
+
             function getActive() {
                 return readFromStorage('parking-data').active;
             }
@@ -25,16 +31,19 @@ angular.module('parkingCheckApp')
             function startParking(parkingData) {
                 var db = readFromStorage('parking-data');
                 db.active.start = parkingData;
+                storeInStorage('parking-data', db);
             }
 
             function endActiveParking(parkingData) {
                 var pushData = {
                     start: isActive(),
                     end: parkingData
-                }
+                };
                 var db = readFromStorage('parking-data');
                 db.history.unshift(pushData);
-                return true;
+                db.active = {};
+                storeInStorage('parking-data', db);
+                return pushData;
             }
 
             function getHistory() {
@@ -42,6 +51,8 @@ angular.module('parkingCheckApp')
             }
 
             return {
+                current: getActive,
+                started: isActive,
                 start: startParking,
                 end: endActiveParking,
                 history: getHistory

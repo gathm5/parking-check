@@ -5,30 +5,42 @@ angular.module('parkingCheckApp')
         '$scope',
         '$state',
         '$stateParams',
+        '$geocode',
         '$rootScope',
-        function ($scope, $state, $stateParams, $rootScope) {
-            var params = $stateParams.location;
-            params = params.split(',');
-            var fromGeo = {
-                latitude: params[0],
-                longitude: params[1],
-                icon: 'images/map-icon-blue.png',
-                title: 'From'
+        function ($scope, $state, $stateParams, $geocode, $rootScope) {
+            var geo = {
+                latitude: $stateParams.latitude,
+                longitude: $stateParams.longitude
             };
+
             var toGeo = {
-                latitude: params[2],
-                longitude: params[3],
+                latitude: geo.latitude,
+                longitude: geo.longitude,
                 icon: 'images/map-icon-red.png',
                 title: 'To'
             };
-            $scope.mapConfig = {
-                zoom: 18,
-                center: fromGeo,
-                markers: [
-                    fromGeo,
-                    toGeo
-                ]
-            };
+            $rootScope.$emit('$alert', {
+                message: 'Locating your current location',
+                showTime: 3 * 1000
+            });
+            $geocode
+                .geocode($scope)
+                .then(function (location) {
+                    var fromGeo = {
+                        latitude: location.coords.latitude,
+                        longitude: location.coords.longitude,
+                        icon: 'images/map-icon-blue.png',
+                        title: 'From'
+                    };
+                    $scope.mapConfig = {
+                        zoom: 18,
+                        center: fromGeo,
+                        markers: [
+                            fromGeo,
+                            toGeo
+                        ]
+                    };
+                });
             $scope.$on('$$back', function () {
                 $state.go('app.park');
             });

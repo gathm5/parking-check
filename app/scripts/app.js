@@ -1,17 +1,17 @@
 'use strict';
 
 angular.module('parkingCheckApp', [
-        'ngCookies',
-        'ngResource',
-        'ngSanitize',
-        'ngRoute',
-        'ngTouch',
-        'ngAnimate',
-        'ui.router',
-        'gsDirectives',
-        'ngStorage',
-        'ngMap'
-    ])
+    'ngCookies',
+    'ngResource',
+    'ngSanitize',
+    'ngRoute',
+    'ngTouch',
+    'ngAnimate',
+    'ui.router',
+    'gsDirectives',
+    'ngStorage',
+    'ngMap'
+])
     .constant('$config', {
         app: {
             name: 'Parking Check'
@@ -61,13 +61,13 @@ angular.module('parkingCheckApp', [
                 url: '/park',
                 views: {
                     'Content@app': {
-                        templateUrl: '/views/dashboard.html',
-                        controller: 'DashboardCtrl'
+                        templateUrl: '/views/parking.html',
+                        controller: 'ParkingCtrl'
                     }
                 }
             })
             .state('app.park.locate', {
-                url: '/locate/:location',
+                url: '/locate/:latitude/:longitude',
                 views: {
                     'Content@app': {
                         templateUrl: '/views/locate-user.html',
