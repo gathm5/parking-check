@@ -4,6 +4,8 @@ angular.module('parkingCheckApp')
     .factory('$parkingData', [
         '$localStorage',
         function ($localStorage) {
+            var storageKey = 'parking-data';
+
             function readFromStorage(key) {
                 if (!$localStorage[key]) {
                     $localStorage[key] = {
@@ -20,8 +22,16 @@ angular.module('parkingCheckApp')
                 }
             }
 
+            function addImageToStorage(picUri) {
+                $localStorage[storageKey].active.image = picUri;
+            }
+
+            function addExtrasToStorage(extras) {
+                $localStorage[storageKey].active.extras = extras;
+            }
+
             function getActive() {
-                return readFromStorage('parking-data').active;
+                return readFromStorage(storageKey).active;
             }
 
             function isActive() {
@@ -29,9 +39,9 @@ angular.module('parkingCheckApp')
             }
 
             function startParking(parkingData) {
-                var db = readFromStorage('parking-data');
+                var db = readFromStorage(storageKey);
                 db.active.start = parkingData;
-                storeInStorage('parking-data', db);
+                storeInStorage(storageKey, db);
             }
 
             function endActiveParking(parkingData) {
@@ -39,15 +49,15 @@ angular.module('parkingCheckApp')
                     start: isActive(),
                     end: parkingData
                 };
-                var db = readFromStorage('parking-data');
+                var db = readFromStorage(storageKey);
                 db.history.unshift(pushData);
                 db.active = {};
-                storeInStorage('parking-data', db);
+                storeInStorage(storageKey, db);
                 return pushData;
             }
 
             function getHistory() {
-                return readFromStorage('parking-data').history;
+                return readFromStorage(storageKey).history;
             }
 
             return {
@@ -55,7 +65,9 @@ angular.module('parkingCheckApp')
                 started: isActive,
                 start: startParking,
                 end: endActiveParking,
-                history: getHistory
+                history: getHistory,
+                takePic: addImageToStorage,
+                addExtras: addExtrasToStorage
             };
         }
     ]);

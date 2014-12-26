@@ -6,13 +6,22 @@ angular.module('parkingCheckApp')
         '$state',
         '$parkingData',
         '$geocode',
-        function ($scope, $state, $parkingData, $geocode) {
-            var activeParking = $parkingData.started();
+        '$rootScope',
+        function ($scope, $state, $parkingData, $geocode, $rootScope) {
+            var activeParking = $parkingData.current();
             var mode = {
                 parkNow: false,
                 completed: true
             };
-            $scope.isParked = !!activeParking;
+            $scope.isParked = !!activeParking.start;
+
+            $scope.parkingImage = activeParking.image;
+            $scope.extras = activeParking.extras || {
+                level: null,
+                slot: null,
+                notes: null
+            };
+
             $scope.parkingControl = function () {
                 if ($scope.isParked === mode.parkNow) {
                     $scope.isParked = mode.completed;
@@ -30,26 +39,58 @@ angular.module('parkingCheckApp')
                 }
             };
             $scope.openInMaps = function () {
-                if (activeParking) {
+                if (activeParking.start) {
                     $state.go('app.park.locate', {
-                        latitude: activeParking.coords.latitude,
-                        longitude: activeParking.coords.longitude
+                        latitude: activeParking.start.coords.latitude,
+                        longitude: activeParking.start.coords.longitude
                     });
                 }
             };
 
-            function onSuccess(imageData) {
-                $scope.parkingImage = "data:image/jpeg;base64," + imageData;
+            function onSuccess(imageURI) {
+                $scope.parkingImage = 'data:image/jpeg;base64,' + imageURI;
+                $parkingData.takePic($scope.parkingImage);
+                onFail('Saving image inside the app');
             }
 
             function onFail(message) {
-                alert('Failed because: ' + message);
+                $rootScope.$emit('$alert', {
+                    message: message,
+                    showTime: 3 * 1000
+                });
             }
 
+            $scope.needExtra = false;
+            $scope.saveExtra = function () {
+                if ($scope.needExtra) {
+                    $parkingData.addExtras($scope.extras);
+                }
+                $scope.needExtra = false;
+            };
+            $scope.cancelExtra = function () {
+                $scope.needExtra = false;
+            };
+            $scope.addNotes = function () {
+                $scope.needExtra = !$scope.needExtra;
+            };
+
             $scope.clickPicture = function () {
-                navigator.camera.getPicture(onSuccess, onFail, { quality: 50,
-                    destinationType: Camera.DestinationType.DATA_URL
-                });
+                if (window.navigator && navigator.camera) {
+                    navigator.camera.getPicture(onSuccess, onFail, {
+                        quality: 100,
+                        destinationType: Camera.DestinationType.DATA_URL,
+                        sourceType: Camera.PictureSourceType.CAMERA,
+                        allowEdit: true,
+                        encodingType: Camera.EncodingType.JPEG,
+                        targetWidth: 100,
+                        targetHeight: 100,
+                        popoverOptions: null,
+                        saveToPhotoAlbum: false
+                    });
+                }
+                else {
+                    onFail('Camera plugin unavailable');
+                }
             };
         }
     ]);
