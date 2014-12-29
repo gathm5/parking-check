@@ -40,6 +40,16 @@ angular.module('parkingCheckApp')
                             toGeo
                         ]
                     };
+                }, function (reject) {
+                    $rootScope.$emit('$alert', {
+                        message: reject,
+                        showTime: 3 * 1000
+                    });
+                }, function (update) {
+                    $rootScope.$emit('$alert', {
+                        message: update,
+                        showTime: 3 * 1000
+                    });
                 });
             $scope.$on('$$back', function () {
                 $state.go('app.park');

@@ -1,38 +1,44 @@
 <div class="parking" data-ng-class="{'negative': isParked, 'positive': !isParked}">
     <parking-button data-clicker="parkingControl"></parking-button>
-    <div data-ng-if="isParked">
-        <div data-ng-click="openInMaps()" class="link">
+    <div class="parked-elements" data-ng-if="isParked">
+        <div data-ng-if="activeParking" class="parked-time">
+            parked {{activeParking.start.timestamp | parkingTime}}
+        </div>
+        <div data-ng-click="openInMaps()" class="link map-link">
             <span><i class="ion-ios-location"></i> Locate using maps</span>
         </div>
 
-        <div data-ng-click="clickPicture()" class="link">
-            <i class="ion-ios-camera"></i>
-            <span data-ng-if="!parkingImage">Take pic</span>
-            <span data-ng-if="parkingImage">Replace pic</span>
+        <div data-ng-show="!needExtra" class="extra-link">
+            <div data-ng-click="clickPicture()" class="link pic-link">
+                <i class="ion-ios-camera"></i>
+                <span data-ng-if="!parkingImage">Take pic</span>
+                <span data-ng-if="parkingImage">Replace pic</span>
+            </div>
+
+            <div data-ng-click="addNotes()" class="link notes-link">
+                <span><i class="ion-edit"></i> Add Notes</span>
+            </div>
         </div>
 
-        <div data-ng-show="!needExtra" data-ng-click="addNotes()" class="link">
-            <span><i class="ion-edit"></i> Add additional informations</span>
-        </div>
-
-        <div data-ng-show="needExtra" class="additional-information">
-            <label>
+        <div data-ng-show="needExtra" class="additional-information" id="additionalInformation">
+            <div class="label">
                 <span>Floor/Level</span>
                 <input type="text" data-ng-model="extras.level" placeholder="Floor/Level">
-            </label>
-            <label>
+            </div>
+            <div class="label">
                 <span>Slot</span>
                 <input type="text" data-ng-model="extras.slot" placeholder="Slot">
-            </label>
-            <label>
-                <span>Any comments</span>
-                <textarea data-ng-model="extras.notes" placeholder="comments"></textarea>
-            </label>
-
-            <div class="submit control link" data-ng-click="saveExtra()">
+            </div>
+            <div class="label">
+                <span>Notes</span>
+                <input data-ng-model="extras.notes" placeholder="comments"/>
+            </div>
+        </div>
+        <div data-ng-show="needExtra" class="actions">
+            <div class="submit link" data-ng-click="saveExtra()">
                 <span>Save</span>
             </div>
-            <div class="cancel control link" data-ng-click="cancelExtra()">
+            <div class="cancel link" data-ng-click="cancelExtra()">
                 <span>Cancel</span>
             </div>
         </div>
@@ -41,8 +47,16 @@
             <img data-ng-src="{{parkingImage}}"/>
         </div>
 
-        <div class="extras" data-ng-show="!needExtra">
-            {{extras}}
+        <div class="extras" data-ng-show="!needExtra" data-ng-if="extras.level || extras.slot || extras.notes">
+            <div class="level" data-ng-if="extras.level">
+                <span>Level:</span> {{extras.level}}
+            </div>
+            <div class="slot" data-ng-if="extras.slot">
+                <span>Slot:</span> {{extras.slot}}
+            </div>
+            <div class="notes" data-ng-if="extras.notes">
+                {{extras.notes}}
+            </div>
         </div>
 
     </div>

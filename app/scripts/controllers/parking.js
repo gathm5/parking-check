@@ -7,28 +7,40 @@ angular.module('parkingCheckApp')
         '$parkingData',
         '$geocode',
         '$rootScope',
-        function ($scope, $state, $parkingData, $geocode, $rootScope) {
-            var activeParking = $parkingData.current();
+        '$location',
+        '$anchorScroll',
+        function ($scope, $state, $parkingData, $geocode, $rootScope, $location, $anchorScroll) {
+            var activeParking;
             var mode = {
                 parkNow: false,
                 completed: true
             };
-            $scope.isParked = !!activeParking.start;
 
-            $scope.parkingImage = activeParking.image;
-            $scope.extras = activeParking.extras || {
-                level: null,
-                slot: null,
-                notes: null
-            };
+            function load() {
+                activeParking = $parkingData.current();
+                $scope.isParked = !!activeParking.start;
+                $scope.activeParking = activeParking;
+                $scope.parkingImage = activeParking.image;
+                $scope.extras = activeParking.extras || {
+                    level: null,
+                    slot: null,
+                    notes: null
+                };
+            }
+
+            load();
 
             $scope.parkingControl = function () {
                 if ($scope.isParked === mode.parkNow) {
                     $scope.isParked = mode.completed;
+                    $scope.activeParking = null;
+                    $scope.parkingImage = null;
+                    $scope.extras = null;
                     $geocode
                         .geocode($scope)
                         .then(function (location) {
                             $parkingData.start(location);
+                            load();
                         });
                 }
                 else if ($scope.isParked === mode.completed) {
@@ -66,12 +78,16 @@ angular.module('parkingCheckApp')
                     $parkingData.addExtras($scope.extras);
                 }
                 $scope.needExtra = false;
+                $location.hash('');
             };
             $scope.cancelExtra = function () {
                 $scope.needExtra = false;
+                $location.hash('');
             };
             $scope.addNotes = function () {
                 $scope.needExtra = !$scope.needExtra;
+                $location.hash('additionalInformation');
+                $anchorScroll();
             };
 
             $scope.clickPicture = function () {

@@ -10,7 +10,8 @@ angular.module('parkingCheckApp', [
     'ui.router',
     'gsDirectives',
     'ngStorage',
-    'ngMap'
+    'ngMap',
+    'ngAutocomplete'
 ])
     .constant('$config', {
         app: {
@@ -22,8 +23,17 @@ angular.module('parkingCheckApp', [
         api: {
             prefix: 'http:/',
             url: 'api.parkwhiz.com',
-            action: 'search?q=',
-            key: null
+            action: 'search',
+            key: '840e0ffb46613429dd2e90c99316ff50',
+            builder: function (params) {
+                var api = this, apiBuilder;
+                if (!params || !params.destination) {
+                    return;
+                }
+                apiBuilder = [api.prefix, api.url, api.action].join('/');
+                apiBuilder += '?destination=' + params.destination + '&key=' + api.key;
+                return apiBuilder.replace(/\s/g, '+');
+            }
         },
         map: {
             linkType1: 'https://www.google.com/maps/dir/Current+Location/',
@@ -46,7 +56,6 @@ angular.module('parkingCheckApp', [
                             '$rootScope',
                             function ($scope, $rootScope) {
                                 $scope.back = function () {
-                                    console.log('Back button from button');
                                     $rootScope.$broadcast('$$back');
                                 }
                             }
@@ -75,6 +84,15 @@ angular.module('parkingCheckApp', [
                     }
                 }
             })
+            .state('app.search', {
+                url: '/search',
+                views: {
+                    'Content@app': {
+                        templateUrl: '/views/search-parking.html',
+                        controller: 'SearchParkingCtrl'
+                    }
+                }
+            })
             .state('app.history', {
                 url: '/history',
                 views: {
@@ -92,16 +110,6 @@ angular.module('parkingCheckApp', [
                         controller: 'ConnectCtrl'
                     }
                 }
-            })
-            .state('dashboard', {
-                url: '/dashboard',
-                templateUrl: '/views/dashboard.html',
-                controller: 'DashboardCtrl'
-            })
-            .state('locate', {
-                url: '/locate/:location',
-                templateUrl: '/views/locate-user.html',
-                controller: 'LocateUserCtrl'
             });
         $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|geo|javascript):/);
     })
