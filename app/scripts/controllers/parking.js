@@ -9,7 +9,8 @@ angular.module('parkingCheckApp')
         '$rootScope',
         '$location',
         '$anchorScroll',
-        function ($scope, $state, $parkingData, $geocode, $rootScope, $location, $anchorScroll) {
+        '$timeout',
+        function ($scope, $state, $parkingData, $geocode, $rootScope, $location, $anchorScroll, $timeout) {
             var activeParking;
             var mode = {
                 parkNow: false,
@@ -28,7 +29,7 @@ angular.module('parkingCheckApp')
                 };
             }
 
-            load();
+            $timeout(load);
 
             $scope.parkingControl = function () {
                 if ($scope.isParked === mode.parkNow) {

@@ -3,22 +3,20 @@
 angular.module('parkingCheckApp')
     .controller('SearchParkingCtrl', [
         '$scope',
-        '$config',
-        '$http',
         '$geocode',
         '$state',
+        'ParkingSearchData',
         '$rootScope',
-        function ($scope, $config, $http, $geocode, $state, $rootScope) {
-            $scope.customLocation = null;
+        function ($scope, $geocode, $state, ParkingSearchData, $rootScope) {
+            $scope.customLocation = ParkingSearchData.lastActiveSearch;
             $scope.searching = {};
             $scope.failure = {};
 
             function call(destination) {
-                var url = $config.api.builder(destination);
-                $http
-                    .get(url)
+                ParkingSearchData
+                    .callApi(destination)
                     .then(function (output) {
-                        $scope.parking = output.data;
+                        $scope.parking = output;
                         $scope.searching.started = false;
                     }, function (reason) {
                         $scope.failure.reason = reason;
@@ -32,6 +30,7 @@ angular.module('parkingCheckApp')
                     showTime: 5 * 1000
                 });
                 $scope.searching.started = true;
+                $scope.parking = null;
                 $geocode
                     .geocode($scope)
                     .then(function (location) {
@@ -55,9 +54,10 @@ angular.module('parkingCheckApp')
 
             $scope.findParking = function () {
                 $scope.searching.started = true;
+                $scope.parking = null
                 $rootScope.$emit('$alert', {
                     message: 'Searching for parking places',
-                    showTime: 5 * 1000
+                    showTime: 3 * 1000
                 });
                 if ($scope.customLocation) {
                     call({
@@ -69,5 +69,11 @@ angular.module('parkingCheckApp')
             $scope.$on('$$back', function () {
                 $state.go('app.park');
             });
+
+            if ($scope.customLocation && typeof $scope.customLocation === 'string') {
+                call({
+                    destination: $scope.customLocation
+                });
+            }
         }
     ]);

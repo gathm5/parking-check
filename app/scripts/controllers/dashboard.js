@@ -71,7 +71,6 @@ angular.module('parkingCheckApp')
                     $geocode
                         .geocode($scope)
                         .then(function (location) {
-                            console.log('location is found: ', location);
                             $scope.location = location;
                             if (clb) {
                                 clb();
