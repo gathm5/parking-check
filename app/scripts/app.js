@@ -1,18 +1,18 @@
 'use strict';
 
 angular.module('parkingCheckApp', [
-    'ngCookies',
-    'ngResource',
-    'ngSanitize',
-    'ngRoute',
-    'ngTouch',
-    'ngAnimate',
-    'ui.router',
-    'gsDirectives',
-    'ngStorage',
-    'ngMap',
-    'ngAutocomplete'
-])
+        'ngCookies',
+        'ngResource',
+        'ngSanitize',
+        'ngRoute',
+        'ngTouch',
+        'ngAnimate',
+        'ui.router',
+        'gsDirectives',
+        'ngStorage',
+        'ngMap',
+        'ngAutocomplete'
+    ])
     .constant('$config', {
         app: {
             name: 'Parking Check'
@@ -33,6 +33,18 @@ angular.module('parkingCheckApp', [
                 apiBuilder = [api.prefix, api.url, api.action].join('/');
                 apiBuilder += '?destination=' + params.destination + '&key=' + api.key;
                 return apiBuilder.replace(/\s/g, '+');
+            },
+            builderBackup: function (params) {
+                //https://maps.googleapis.com/maps/api/place/search/json?location=LAT,LONG&radius=500&types=parking&key=AIzaSyBbW2hMLYX-YkJ4CqwObIuA1CynCoJ3tno&query=
+                var prefix, suffix;
+                if (params.type === 1) {
+                    prefix = 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=';
+                }
+                else {
+                    prefix = 'https://maps.googleapis.com/maps/api/place/search/json?location=';
+                }
+                suffix = '&radius=500&types=parking&key=AIzaSyBbW2hMLYX-YkJ4CqwObIuA1CynCoJ3tno';
+                return (prefix + params.destination + suffix).replace(/\s/g, '+');
             }
         },
         map: {

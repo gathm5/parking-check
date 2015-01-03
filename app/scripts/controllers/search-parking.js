@@ -35,7 +35,8 @@ angular.module('parkingCheckApp')
                     .geocode($scope)
                     .then(function (location) {
                         call({
-                            destination: location.coords.latitude + ',' + location.coords.longitude
+                            destination: location.coords.latitude + ',' + location.coords.longitude,
+                            type: 0
                         });
                     }, function (reject) {
                         $rootScope.$emit('$alert', {
@@ -61,7 +62,8 @@ angular.module('parkingCheckApp')
                 });
                 if ($scope.customLocation) {
                     call({
-                        destination: $scope.customLocation
+                        destination: $scope.customLocation,
+                        type: 1
                     });
                 }
             };

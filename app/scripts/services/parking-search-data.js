@@ -16,7 +16,7 @@ angular.module('parkingCheckApp')
 
                 var url = $config.api.builder(destination);
                 var deferred = $q.defer();
-
+                console.log($config.api.builderBackup(destination));
                 $sessionStorage.parkingSearches = $sessionStorage.parkingSearches || {};
 
                 if ($sessionStorage.parkingSearches &&
