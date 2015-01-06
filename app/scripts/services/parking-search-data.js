@@ -16,7 +16,7 @@ angular.module('parkingCheckApp')
 
                 var url = $config.api.builder(destination);
                 var deferred = $q.defer();
-                console.log($config.api.builderBackup(destination));
+                url = $config.api.builderBackup(destination);
                 $sessionStorage.parkingSearches = $sessionStorage.parkingSearches || {};
 
                 if ($sessionStorage.parkingSearches &&
@@ -29,7 +29,8 @@ angular.module('parkingCheckApp')
                     $http
                         .get(url)
                         .then(function (output) {
-                            if (output.data.parking_listings) {
+                            if (output.data.parking_listings || output.data.results) {
+
                                 $sessionStorage.parkingSearches[destination.destination] = {
                                     cacheTime: new Date().getTime(),
                                     data: output.data

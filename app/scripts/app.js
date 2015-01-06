@@ -38,12 +38,12 @@ angular.module('parkingCheckApp', [
                 //https://maps.googleapis.com/maps/api/place/search/json?location=LAT,LONG&radius=500&types=parking&key=AIzaSyBbW2hMLYX-YkJ4CqwObIuA1CynCoJ3tno&query=
                 var prefix, suffix;
                 if (params.type === 1) {
-                    prefix = 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=';
+                    prefix = 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=parking in ';
                 }
                 else {
-                    prefix = 'https://maps.googleapis.com/maps/api/place/search/json?location=';
+                    prefix = 'https://maps.googleapis.com/maps/api/place/search/json?types=parking&location=';
                 }
-                suffix = '&radius=500&types=parking&key=AIzaSyBbW2hMLYX-YkJ4CqwObIuA1CynCoJ3tno';
+                suffix = '&radius=500&key=AIzaSyBbW2hMLYX-YkJ4CqwObIuA1CynCoJ3tno';
                 return (prefix + params.destination + suffix).replace(/\s/g, '+');
             }
         },
