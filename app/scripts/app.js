@@ -51,7 +51,11 @@ angular.module('parkingCheckApp', [
             linkType1: 'https://www.google.com/maps/dir/Current+Location/',
             linkType2: 'https://maps.google.com/maps?saddr=Current+Location&dirflg=w&daddr='
         },
-        timer: 5 * 1000
+        timer: 5 * 1000,
+        geoConfig: {
+            alternate: false,
+            timeout: 10 * 1000
+        }
     })
     .config(function ($stateProvider, $urlRouterProvider, $compileProvider) {
         $urlRouterProvider.otherwise('/park');

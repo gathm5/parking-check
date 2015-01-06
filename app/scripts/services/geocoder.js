@@ -52,8 +52,9 @@
 
 angular.module('parkingCheckApp')
     .factory('$geocode', [
+        '$config',
         '$q',
-        function GeoLocationService($q) {
+        function GeoLocationService($config, $q) {
             // AngularJS will instantiate a singleton by calling "new" on this function
             function errorHandler(error, $scope, deferred) {
                 switch (error.code) {
@@ -80,14 +81,14 @@ angular.module('parkingCheckApp')
                     var deferred = $q.defer();
                     var geoOptions = {
                         enableHighAccuracy: true,
-                        timeout: 10 * 1000,
+                        timeout: $config.geoConfig.timeout,
                         maximumAge: 0
                     };
                     if (options && options.timeout) {
                         geoOptions.timeout = options.timeout;
                     }
                     if (navigator && navigator.geolocation) {
-                        if (navigator.geolocation.getAccurateCurrentPosition) {
+                        if (navigator.geolocation.getAccurateCurrentPosition && $config.geoConfig.alternate) {
                             navigator.geolocation.getAccurateCurrentPosition(function (position) {
                                 $scope.$apply(function () {
                                     deferred.resolve(position);
