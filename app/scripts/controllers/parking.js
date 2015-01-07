@@ -98,16 +98,21 @@ angular.module('parkingCheckApp')
                         destinationType: Camera.DestinationType.DATA_URL,
                         sourceType: Camera.PictureSourceType.CAMERA,
                         allowEdit: true,
-                        encodingType: Camera.EncodingType.JPEG,
-                        targetWidth: 100,
-                        targetHeight: 100,
+                        encodingType: Camera.EncodingType.PNG,
                         popoverOptions: null,
-                        saveToPhotoAlbum: false
+                        saveToPhotoAlbum: false,
+                        correctOrientation: false,
+                        targetWidth: 1500,
+                        targetHeight: 1500
                     });
                 }
                 else {
                     onFail('Camera plugin unavailable');
                 }
             };
+
+            $scope.$on('$$back', function () {
+                navigator.app.exitApp();
+            });
         }
     ]);
