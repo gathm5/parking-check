@@ -102,8 +102,8 @@ angular.module('parkingCheckApp')
                         popoverOptions: null,
                         saveToPhotoAlbum: false,
                         correctOrientation: false,
-                        targetWidth: 1500,
-                        targetHeight: 1500
+                        targetWidth: 800,
+                        targetHeight: 800
                     });
                 }
                 else {
