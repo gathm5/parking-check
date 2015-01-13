@@ -18,7 +18,7 @@ angular.module('parkingCheckApp')
                     .then(function (output) {
                         $scope.parking = output;
                         $scope.searching.started = false;
-                        console.log('output', output);
+                        $rootScope.$emit('$alertCancel');
                     }, function (reason) {
                         $scope.failure.reason = reason;
                         $scope.searching.started = false;
