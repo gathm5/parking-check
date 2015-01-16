@@ -77,6 +77,10 @@ angular.module('parkingCheckApp', [
                             }
                         ]
                     },
+                    'MenuPanel@': {
+                        templateUrl: '/views/menu-panel.html',
+                        controller: 'MenuPanelCtrl'
+                    },
                     'Footer@app': {
                         templateUrl: '/views/footer.html'
                     }
@@ -135,9 +139,11 @@ angular.module('parkingCheckApp', [
         '$deviceListeners',
         'NotificationService',
         '$config',
-        function ($rootScope, $state, $deviceListeners, NotificationService, $config) {
+        'drawerParams',
+        function ($rootScope, $state, $deviceListeners, NotificationService, $config, drawerParams) {
             $rootScope.$state = $state;
             $rootScope.$app = $config.app;
+            $rootScope.drawerParams = drawerParams;
             $deviceListeners.init();
             $rootScope.$on('$$ready', function () {
                 NotificationService.ready();

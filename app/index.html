@@ -44,7 +44,15 @@
 <![endif]-->
 
 <!-- Add your site or application content here -->
-<div class="container" data-fast-click data-ui-view=""></div>
+
+<drawer left>
+    <div class="drawer-menu">
+        <div class="menu-panel" data-fast-click data-ui-view="MenuPanel"></div>
+    </div>
+    <div class="drawer-pull">
+        <div class="container" data-fast-click data-ui-view=""></div>
+    </div>
+</drawer>
 <web-intent></web-intent>
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
 <script>
@@ -109,6 +117,7 @@
 <script src="scripts/controllers/search-parking.js"></script>
 <script src="scripts/services/parking-search-data.js"></script>
 <script src="scripts/filters/ignore-partial-result.js"></script>
+<script src="scripts/controllers/menu-panel.js"></script>
 <!-- endbuild -->
 </body>
 </html>
