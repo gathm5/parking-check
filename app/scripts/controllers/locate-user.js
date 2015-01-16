@@ -51,7 +51,10 @@ angular.module('parkingCheckApp')
                         showTime: 3 * 1000
                     });
                 });
-            $scope.$on('$$back', function () {
+            $scope.$on('$$back', function (event) {
+                if (event.defaultPrevented) {
+                    return;
+                }
                 $state.go('app.park');
             });
             $rootScope.header = {

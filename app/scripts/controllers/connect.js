@@ -6,7 +6,10 @@ angular.module('parkingCheckApp')
         '$state',
         '$parkingData',
         function ($scope, $state, $parkingData) {
-            $scope.$on('$$back', function () {
+            $scope.$on('$$back', function (event) {
+                if (event.defaultPrevented) {
+                    return;
+                }
                 $state.go('app.park');
             });
             $scope.active = $parkingData.current();

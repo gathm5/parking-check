@@ -69,7 +69,10 @@ angular.module('parkingCheckApp')
                 }
             };
 
-            $scope.$on('$$back', function () {
+            $scope.$on('$$back', function (event) {
+                if (event.defaultPrevented) {
+                    return;
+                }
                 $state.go('app.park');
             });
 

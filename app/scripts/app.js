@@ -148,5 +148,14 @@ angular.module('parkingCheckApp', [
             $rootScope.$on('$$ready', function () {
                 NotificationService.ready();
             });
+            $rootScope.$on('$stateChangeStart', function () {
+                drawerParams.close();
+            });
+            $rootScope.$on('$$back', function (event) {
+                if (drawerParams.isDrawerOpen) {
+                    event.preventDefault();
+                    drawerParams.close();
+                }
+            });
         }
     ]);
