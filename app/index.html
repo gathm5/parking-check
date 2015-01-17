@@ -32,7 +32,7 @@
     <link rel="stylesheet" href="styles/build/parking-check.css">
     <!-- endbuild -->
 </head>
-<body data-ng-app="parkingCheckApp" data-device-platform>
+<body data-ng-app="parkingCheckApp" data-device-platform data-ng-cloak>
 <!--[if lt IE 7]>
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
     your browser</a> to improve your experience.</p>
@@ -49,9 +49,7 @@
     <div class="drawer-menu">
         <div class="menu-panel" data-fast-click data-ui-view="MenuPanel"></div>
     </div>
-    <div class="drawer-pull" data-ng-click="drawerParams.isDrawerOpen || drawerParams.close()"
-         data-ng-class="{'disable':drawerParams.isDrawerOpen}">
-        {{drawerParams.isDrawerOpen}}
+    <div class="drawer-pull" data-ng-class="{'disable':drawerParams.isDrawerOpen}">
         <div class="container" data-fast-click data-ui-view=""></div>
     </div>
 </drawer>
@@ -120,6 +118,7 @@
 <script src="scripts/services/parking-search-data.js"></script>
 <script src="scripts/filters/ignore-partial-result.js"></script>
 <script src="scripts/controllers/menu-panel.js"></script>
+<script src="scripts/directives/sms-send.js"></script>
 <!-- endbuild -->
 </body>
 </html>
